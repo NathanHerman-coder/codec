@@ -1,12 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon portfolio</title>
+    <title>Dashboard Tâches</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animation d'apparition des tâches */
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Effet de drag */
+        .dragging {
+            opacity: 0.5;
+            background-color: #e0f2fe;
+        }
+    </style>
+
 </head>
-<body>
-    <h1>Bienvenue sur mon portfolio!</h1>
-    <p>Je suis developpeur frontend debutant</p>
+
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-blue-600 text-white p-6">
+            <h1 class="text-2xl font-bold mb-6">Mon Dashboard</h1>
+            <nav>
+                <ul>
+                    <li id="navTasks" class="mb-4 cursor-pointer hover:underline font-bold">Tâches</li>
+                    <li id="navProjects" class="mb-4 cursor-pointer hover:underline">Projets</li>
+                    <li id="navStats" class="mb-4 cursor-pointer hover:underline">Statistiques</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1 p-8">
+            <!-- Section Tâches -->
+            <div id="tasksSection" class="main-section">
+                <h2 class="text-3xl font-bold mb-6">Gestion de tâches</h2>
+
+                <div class="mb-4 flex items-center space-x-4">
+                    <input id="projectInput" type="text" placeholder="Nom du projet..."
+                        class="p-2 border border-gray-300 rounded flex-1">
+                    <button id="addProjectBtn" class="bg-purple-600 text-white px-4 rounded hover:bg-purple-700">Ajouter
+                        projet</button>
+                </div>
+
+                <div class="mb-6 flex space-x-4">
+                    <select id="projectSelect" class="p-2 border border-gray-300 rounded flex-1">
+                        <option value="all">Tous les projets</option>
+                    </select>
+                </div>
+
+                <div class="mb-6 flex">
+                    <input id="taskInput" type="text" placeholder="Nouvelle tâche..."
+                        class="flex-1 p-2 border border-gray-300 rounded-l">
+                    <button id="addTaskBtn"
+                        class="bg-blue-600 text-white px-4 rounded-r hover:bg-blue-700">Ajouter</button>
+                </div>
+
+                <div class="mb-4 space-x-2">
+                    <button class="filter-btn bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+                        data-filter="all">Toutes</button>
+                    <button class="filter-btn bg-gray-200 px-3 py-1 rounded hover:bg-gray-300" data-filter="active">En
+                        cours</button>
+                    <button class="filter-btn bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+                        data-filter="completed">Terminées</button>
+                </div>
+
+                <ul id="taskList" class="space-y-2 mb-6"></ul>
+            </div>
+
+            <!-- Section Projets -->
+            <div id="projectsSection" class="main-section hidden">
+                <h2 class="text-3xl font-bold mb-6">Gestion des projets</h2>
+                <ul id="sidebarProjects" class="space-y-2 mb-6"></ul>
+            </div>
+
+            <!-- Section Statistiques -->
+            <div id="statsSection" class="main-section hidden">
+                <h2 class="text-3xl font-bold mb-6">Statistiques</h2>
+
+                <!-- Statistiques globales -->
+                <div id="globalStats" class="flex space-x-6 mb-6">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-bold">Total</h3>
+                        <p id="totalTasks">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-bold text-green-600">Terminées</h3>
+                        <p id="completedTasks">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-bold text-yellow-600">En cours</h3>
+                        <p id="activeTasks">0</p>
+                    </div>
+                </div>
+
+                <!-- Statistiques par projet -->
+                <div id="projectStats" class="space-y-4"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
 </body>
+
 </html>
